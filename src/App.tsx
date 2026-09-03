@@ -1,121 +1,111 @@
 import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
 import './App.css'
+import { Sidebar } from './components/Sidebar'
+import { TopNav } from './components/TopNav'
+import { PageHeader } from './components/PageHeader'
+import { StructureMap } from './components/StructureMap'
+import { FunctionalDomainAnalytics } from './components/FunctionalDomainAnalytics'
+import { InferenceDossier } from './components/InferenceDossier'
+import { MetricPillsFooter } from './components/MetricPillsFooter'
+import { LandingPage } from './components/LandingPage'
+import { LayoutGrid, Sparkles } from 'lucide-react'
 
-function App() {
-  const [count, setCount] = useState(0)
+export function App() {
+  // Skeleton mode state for dashboard
+  const [isSkeleton, setIsSkeleton] = useState<boolean>(false)
+  // Default to landing page view as requested
+  const [activeNav, setActiveNav] = useState<string>('landing-page')
+  const [searchQuery, setSearchQuery] = useState<string>('')
+
+  // If activeNav is 'landing-page', render the dedicated publication-grade Landing Page
+  if (activeNav === 'landing-page') {
+    return (
+      <LandingPage
+        onLaunchDashboard={() => setActiveNav('command-center')}
+      />
+    )
+  }
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
+    <div className="app-layout">
+      {/* 1. Left Sidebar Component */}
+      <Sidebar
+        isSkeleton={isSkeleton}
+        activeNav={activeNav}
+        onSelectNav={setActiveNav}
+      />
+
+      {/* 2. Main Workspace */}
+      <div className="main-workspace">
+        {/* Top Navigation Bar */}
+        <TopNav
+          isSkeleton={isSkeleton}
+          searchQuery={searchQuery}
+          onSearchChange={setSearchQuery}
+          toggleSkeleton={() => setIsSkeleton(!isSkeleton)}
+          onOpenLanding={() => setActiveNav('landing-page')}
+        />
+
+        {/* Mode Notification Banner */}
+        <div
+          style={{
+            backgroundColor: isSkeleton ? '#eff6ff' : '#ecfdf5',
+            borderBottom: isSkeleton ? '1px solid #bfdbfe' : '1px solid #a7f3d0',
+            padding: '8px 32px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            fontSize: '12px',
+            color: isSkeleton ? '#1e40af' : '#065f46',
+            fontWeight: 500,
+          }}
         >
-          Count is {count}
-        </button>
-      </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            {isSkeleton ? <LayoutGrid size={15} /> : <Sparkles size={15} />}
+            <span>
+              {isSkeleton
+                ? 'Displaying UI Skeleton & Structural Wireframe (Layout Phase 1)'
+                : 'Displaying Fully Populated High-Fidelity Dashboard UI'}
+            </span>
+          </div>
+          <button
+            onClick={() => setIsSkeleton(!isSkeleton)}
+            style={{
+              backgroundColor: isSkeleton ? '#2563eb' : '#0d9488',
+              color: '#ffffff',
+              padding: '4px 12px',
+              borderRadius: '9999px',
+              fontSize: '11.5px',
+              fontWeight: 600,
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+            }}
+          >
+            {isSkeleton ? 'Switch to Full Dashboard' : 'Switch to Skeleton View'}
+          </button>
         </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+        {/* Main Dashboard Content Grid */}
+        <main className="dashboard-content-area">
+          {/* Greeting & Run Subheader */}
+          <PageHeader isSkeleton={isSkeleton} />
+
+          {/* Top Main Card: Structure Map */}
+          <StructureMap isSkeleton={isSkeleton} />
+
+          {/* 2-Column Analytical Grid */}
+          <div className="analytics-dossier-grid">
+            <FunctionalDomainAnalytics isSkeleton={isSkeleton} />
+            <InferenceDossier isSkeleton={isSkeleton} />
+          </div>
+
+          {/* Bottom Telemetry Status Bar */}
+          <MetricPillsFooter isSkeleton={isSkeleton} />
+        </main>
+      </div>
+    </div>
   )
 }
 
