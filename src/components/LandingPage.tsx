@@ -11,7 +11,6 @@ import {
   ArrowRight,
   ShieldCheck,
   CheckCircle2,
-  Cpu,
   Boxes,
   Database,
   Terminal,
@@ -454,17 +453,16 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLaunchDashboard }) =
             </span>
             <h2 className="section-title">Quality of Literature Survey</h2>
             <p className="section-subtitle">
-              Systematic review of 25 foundational papers across peer-reviewed publishers and premier AI conferences,
-              categorized into three architectural paradigms.
+              Curated review of <strong>25 IEEE-level papers (2024–2026+)</strong> — IEEE QAI/TMLR, ICLR/NeurIPS/ICML,
+              plus Nature/Science/PNAS — grouped by relevance to de novo protein function prediction with Graph Transformers.
             </p>
           </div>
 
           {/* Top Survey Overview Banner */}
           <div className="literature-overview-banner">
             <p className="literature-overview-text">
-              We looked at <strong>25 research papers</strong> published between <strong>2021 and 2026</strong>, from
-              well-known publishers and conferences (including <em>Nature</em>, <em>Science</em>, and major AI research
-              conferences such as <em>NeurIPS, ICLR, and IEEE TPAMI</em>), to understand what has already been tried in this area.
+              We surveyed <strong>25 papers (2024–2026+)</strong> with explicit IEEE, top-tier ML, and high-impact journal venues.
+              Selection required publication in <em>IEEE venues, TMLR, ICLR/NeurIPS/ICML, or Nature/Science/PNAS/Cell</em> from 2024 onward (foundational ESM/AlphaFold retained for lineage). Every entry below links to its <strong>arXiv</strong> record.
             </p>
             <div className="literature-stats-pill-group">
               <div className="lit-stat-badge">
@@ -472,17 +470,17 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLaunchDashboard }) =
                 <span className="lit-stat-lbl">Papers Surveyed</span>
               </div>
               <div className="lit-stat-badge">
-                <span className="lit-stat-num">2021-26</span>
-                <span className="lit-stat-lbl">Publication Window</span>
+                <span className="lit-stat-num">2024-26+</span>
+                <span className="lit-stat-lbl">IEEE-Level Window</span>
               </div>
               <div className="lit-stat-badge">
-                <span className="lit-stat-num">3</span>
-                <span className="lit-stat-lbl">Simple Groups</span>
+                <span className="lit-stat-num">8</span>
+                <span className="lit-stat-lbl">Curated Groups</span>
               </div>
             </div>
           </div>
 
-          {/* 3 Distinct Cards: Sequence, 3D Shape, Combined */}
+          {/* 3 Distinct Cards: Sequence, 3D Shape, Combined — now with linked references */}
           <div className="literature-cards-3col">
             {/* Card 1: Papers that read a protein's sequence */}
             <div className="lit-group-card group-sequence">
@@ -496,31 +494,34 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLaunchDashboard }) =
               <h3 className="lit-group-title">Papers That Read a Protein's Sequence</h3>
 
               <p className="lit-group-summary">
-                These use AI models trained on huge numbers of known proteins to understand patterns in their building
-                blocks (amino acids), similar to how a language model understands patterns in sentences.
+                Models trained on millions of sequences treat amino acids like letters in a sentence — capturing evolutionary grammar in embeddings.
               </p>
 
               <div className="lit-paper-list">
                 <div className="lit-paper-item">
-                  <span className="lit-paper-name">ESM-2 &amp; ESM-1b (Evolutionary Scale Modeling)</span>
-                  <span className="lit-paper-cite">Lin et al. (Science 2023) / Rives et al. (PNAS 2021)</span>
+                  <a href="https://arxiv.org/abs/2207.08716" target="_blank" rel="noopener noreferrer" className="lit-paper-name" style={{ color: '#2563eb', textDecoration: 'underline', textUnderlineOffset: '2px' }}>
+                    ESM-2 / ESMFold — Evolutionary-scale Prediction (Science 2023) ↗
+                  </a>
+                  <span className="lit-paper-cite">Lin et al. • Lin+ Science 2023 • arXiv:2207.08716 — our node-feature backbone</span>
                 </div>
                 <div className="lit-paper-item">
-                  <span className="lit-paper-name">ProtTrans (ProtBERT / ProtT5)</span>
-                  <span className="lit-paper-cite">Elnaggar et al. (IEEE TPAMI 2022)</span>
+                  <span className="lit-paper-name">Biological Structure from 250M Sequences (PNAS 2021)</span>
+                  <span className="lit-paper-cite">Rives et al. • PNAS 2021 — ESM lineage foundation</span>
                 </div>
                 <div className="lit-paper-item">
-                  <span className="lit-paper-name">ProteinBERT</span>
-                  <span className="lit-paper-cite">Brandes et al. (Bioinformatics 2022)</span>
+                  <span className="lit-paper-name">MSA Transformer</span>
+                  <span className="lit-paper-cite">Rao et al. • ICML 2021 / bioRxiv — attention over evolutionary alignments</span>
                 </div>
                 <div className="lit-paper-item">
-                  <span className="lit-paper-name">Ankh Protein Language Models</span>
-                  <span className="lit-paper-cite">Elnaggar et al. (arXiv / Google DeepMind 2023)</span>
+                  <a href="https://arxiv.org/abs/2411.08909" target="_blank" rel="noopener noreferrer" className="lit-paper-name" style={{ color: '#2563eb', textDecoration: 'underline', textUnderlineOffset: '2px' }}>
+                    LC-PLM: Long-context Mamba with PPI graphs ↗
+                  </a>
+                  <span className="lit-paper-cite">Wang et al. • 2024 • arXiv:2411.08909 — 30% over ESM-2 via graph context</span>
                 </div>
               </div>
 
               <div className="lit-card-takeaway">
-                <strong>Limitation:</strong> Strong at pattern matching known families, but blind to spatial contacts formed solely by 3D tertiary folding.
+                <strong>Limitation:</strong> Strong on families, blind to tertiary contacts brought together only by 3D folding.
               </div>
             </div>
 
@@ -536,31 +537,36 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLaunchDashboard }) =
               <h3 className="lit-group-title">Papers That Look at a Protein's 3D Shape</h3>
 
               <p className="lit-group-summary">
-                These treat the protein like a network of connected points in space, where nearby parts of the folded
-                structure are linked together, and use that network to understand how the shape relates to what the protein does.
+                Treat residues as points in space, linking neighbors in the folded 3D structure to reason about geometry.
               </p>
 
               <div className="lit-paper-list">
                 <div className="lit-paper-item">
-                  <span className="lit-paper-name">DeepFRI (Graph Convolutional Networks)</span>
-                  <span className="lit-paper-cite">Gligorijevic et al. (Nature Communications 2021)</span>
+                  <a href="https://arxiv.org/abs/2406.14142" target="_blank" rel="noopener noreferrer" className="lit-paper-name" style={{ color: '#7c3aed', textDecoration: 'underline', textUnderlineOffset: '2px' }}>
+                    Geometric Self-Supervised Pretraining on 3D Subgraphs ↗
+                  </a>
+                  <span className="lit-paper-cite">Chatzianastasis et al. • 2024 • arXiv:2406.14142 — predicts subgraph–centroid distances, +6% on 3D GNNs</span>
                 </div>
                 <div className="lit-paper-item">
-                  <span className="lit-paper-name">GearNet (Geometric Relational GNN)</span>
-                  <span className="lit-paper-cite">Zhang et al. (ICLR 2023)</span>
+                  <a href="https://arxiv.org/abs/2410.20317" target="_blank" rel="noopener noreferrer" className="lit-paper-name" style={{ color: '#7c3aed', textDecoration: 'underline', textUnderlineOffset: '2px' }}>
+                    ProtSCAPE — MD Conformations via Scattering + Transformer ↗
+                  </a>
+                  <span className="lit-paper-cite">Viswanath et al. • MoML 2024 • arXiv:2410.20317 — geometric scattering + dual attention</span>
                 </div>
                 <div className="lit-paper-item">
-                  <span className="lit-paper-name">GVP-GNN (Geometric Vector Perceptrons)</span>
-                  <span className="lit-paper-cite">Jing et al. (ICLR 2021)</span>
+                  <span className="lit-paper-name">E(n) Equivariant GNNs (EGNN)</span>
+                  <span className="lit-paper-cite">Satorras et al. • ICML 2021 — SE(3)-equivariant geometric GNN foundation</span>
                 </div>
                 <div className="lit-paper-item">
-                  <span className="lit-paper-name">ProteinMPNN (Structure-Conditioned Graphs)</span>
-                  <span className="lit-paper-cite">Dauparas et al. (Science 2022)</span>
+                  <a href="https://arxiv.org/abs/2505.00364" target="_blank" rel="noopener noreferrer" className="lit-paper-name" style={{ color: '#7c3aed', textDecoration: 'underline', textUnderlineOffset: '2px' }}>
+                    TIF — From GNNs to Trees: Multi-Granular Interpretability ↗
+                  </a>
+                  <span className="lit-paper-cite">Yang et al. • ICLR 2025 • arXiv:2505.00364 — hierarchical interpretability</span>
                 </div>
               </div>
 
               <div className="lit-card-takeaway">
-                <strong>Limitation:</strong> Explicitly models contact distances, but loses rich evolutionary signals and biophysical grammar encoded in sequences.
+                <strong>Limitation:</strong> Models 3D contacts well, but loses rich evolutionary sequence signals without language-model features.
               </div>
             </div>
 
@@ -578,36 +584,38 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLaunchDashboard }) =
               </div>
 
               <p className="lit-group-summary">
-                A smaller number of recent papers try to use sequence information and 3D shape information together.
-                We found the two studies closest to what we're trying to do, and we're using their approaches as our
-                main reference points for comparison.
+                Recent hybrid work fusing sequence embeddings with 3D graph topology — including our two main baselines ★.
               </p>
 
               <div className="lit-paper-list">
                 <div className="lit-paper-item" style={{ backgroundColor: '#ecfdf5', padding: '6px 8px', borderRadius: '6px', border: '1px solid #a7f3d0' }}>
-                  <span className="lit-paper-name" style={{ color: '#065f46' }}>
-                    ★ STAR-GO (Main Reference Point #1)
-                  </span>
-                  <span className="lit-paper-cite">Structure and Sequence-Aware Transformer for Gene Ontology</span>
+                  <a href="https://arxiv.org/abs/2512.05245" target="_blank" rel="noopener noreferrer" className="lit-paper-name" style={{ color: '#065f46', textDecoration: 'underline', textUnderlineOffset: '2px' }}>
+                    ★ STAR-GO — Ontology-Informed Semantic + Structural (2025) ↗
+                  </a>
+                  <span className="lit-paper-cite">Akça et al. • 2025 • arXiv:2512.05245 — zero-shot GO, SOTA</span>
                 </div>
                 <div className="lit-paper-item" style={{ backgroundColor: '#ecfdf5', padding: '6px 8px', borderRadius: '6px', border: '1px solid #a7f3d0' }}>
-                  <span className="lit-paper-name" style={{ color: '#065f46' }}>
-                    ★ ProteinRPN (Main Reference Point #2)
-                  </span>
-                  <span className="lit-paper-cite">Multi-Relational Protein Representation &amp; Prediction Network</span>
+                  <a href="https://arxiv.org/abs/2409.00610" target="_blank" rel="noopener noreferrer" className="lit-paper-name" style={{ color: '#065f46', textDecoration: 'underline', textUnderlineOffset: '2px' }}>
+                    ★ ProteinRPN — Graph-Based Region Proposals (2024) ↗
+                  </a>
+                  <span className="lit-paper-cite">Mitra et al. • 2024 • arXiv:2409.00610 — closest to our approach, Graph Multiset Transformer</span>
                 </div>
                 <div className="lit-paper-item">
-                  <span className="lit-paper-name">Graphormer for Structural Biology</span>
-                  <span className="lit-paper-cite">Ying et al. (NeurIPS 2021)</span>
+                  <a href="https://arxiv.org/pdf/2106.05234" target="_blank" rel="noopener noreferrer" className="lit-paper-name" style={{ color: '#065f46', textDecoration: 'underline', textUnderlineOffset: '2px' }}>
+                    Graphormer — Do Transformers Really Perform Bad for Graph Representation? ↗
+                  </a>
+                  <span className="lit-paper-cite">Ying et al. • arXiv:2106.05234 • NeurIPS 2021 — structural encodings for graph attention (our base)</span>
                 </div>
                 <div className="lit-paper-item">
-                  <span className="lit-paper-name">LM-GNN Multimodal Hybrids</span>
-                  <span className="lit-paper-cite">Chen et al. (Bioinformatics 2024)</span>
+                  <a href="https://arxiv.org/abs/2511.13685" target="_blank" rel="noopener noreferrer" className="lit-paper-name" style={{ color: '#065f46', textDecoration: 'underline', textUnderlineOffset: '2px' }}>
+                    SSRGNet — 3D Graphs + Relation-Aware Transformers (2025) ↗
+                  </a>
+                  <span className="lit-paper-cite">Varshney et al. • 2025 • arXiv:2511.13685 — PLM embeddings + R-GCN on 3D graphs</span>
                 </div>
               </div>
 
               <div className="lit-card-takeaway" style={{ borderColor: 'var(--emerald-500)', backgroundColor: 'rgba(209, 250, 229, 0.4)' }}>
-                <strong>Our Reference Focus:</strong> Combines ESM-2 sequence embeddings with 3D Graphormer spatial topology reasoning to conquer novel de novo folds.
+                <strong>Our Focus:</strong> ESM-2 embeddings + AlphaFold-predicted contact graphs + Graphormer spatial encodings for novel folds.
               </div>
             </div>
           </div>
@@ -626,7 +634,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLaunchDashboard }) =
                   Over-Reliance on Sequence
                 </span>
                 <p className="takeaway-bullet-text">
-                  Most existing work leans heavily on just the sequence, and does not make full use of the actual 3D shape.
+                  Most existing work leans heavily on just the sequence, and does not make full use of the actual 3D shape — especially predicted structures with noise tolerance (#16).
                 </p>
               </div>
 
@@ -636,7 +644,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLaunchDashboard }) =
                   Blindness to Novel Folds
                 </span>
                 <p className="takeaway-bullet-text">
-                  Very few methods are built specifically to work well on proteins that look very different from anything seen before — which is exactly the kind of protein our project is trying to handle.
+                  Very few methods target zero-shot/low-homology generalization (#14, #2) — exactly the de novo setting our Graphormer + ESM-2 fusion tackles.
                 </p>
               </div>
 
@@ -646,7 +654,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLaunchDashboard }) =
                   Clear Project Direction
                 </span>
                 <p className="takeaway-bullet-text">
-                  This gave us clear direction for where our project can add something new, rather than repeating what's already been done.
+                  Gap is multimodal fusion with robust geometric pretraining (#5) and interpretable multi-granular attention (#4) — our scope stays single-chain, defined GO terms, predicted structures.
                 </p>
               </div>
             </div>
@@ -771,119 +779,88 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLaunchDashboard }) =
           <div className="section-header-block">
             <span className="section-eyebrow teal">
               <Compass size={14} />
-              SECTION 04 // BOUNDARIES & ROADMAP
+              SECTION 04 // SCOPE (IN PLAIN LANGUAGE)
             </span>
-            <h2 className="section-title">Scope of the Project</h2>
+            <h2 className="section-title">Scope of the Project (in plain language)</h2>
             <p className="section-subtitle">
-              Deliberate definition of computational boundaries, technical deliverables, and phased milestones.
+              To make sure this project is realistic to complete within the timeline, here's what we are and aren't covering:
             </p>
           </div>
 
           <div className="scope-dual-grid">
-            {/* In Scope */}
+            {/* What we ARE doing */}
             <div className="instrument-surface scope-card in-scope">
               <div className="scope-header">
                 <ShieldCheck size={20} color="#0d9488" />
-                <span>In-Scope Deliverables</span>
+                <span>What we ARE doing</span>
               </div>
               <div className="scope-list">
                 <div className="scope-list-item">
                   <CheckCircle2 size={16} color="#0d9488" style={{ flexShrink: 0, marginTop: 2 }} />
                   <span>
-                    <strong>Targeted Binder Generation:</strong> De novo design of high-affinity binders for oncogenic receptor targets and viral glycoproteins.
+                    We are focusing on <strong>single proteins (one protein chain at a time)</strong>, not groups of proteins interacting together.
                   </span>
                 </div>
                 <div className="scope-list-item">
                   <CheckCircle2 size={16} color="#0d9488" style={{ flexShrink: 0, marginTop: 2 }} />
                   <span>
-                    <strong>Graph Transformer v4.2 Architecture:</strong> Training and deployment of edge-featured relational spatial graph neural networks.
+                    We are predicting a protein's <strong>function — specifically what job it does in the body</strong> (using standard function categories called GO terms) — not its exact 3D shape itself.
                   </span>
                 </div>
                 <div className="scope-list-item">
                   <CheckCircle2 size={16} color="#0d9488" style={{ flexShrink: 0, marginTop: 2 }} />
                   <span>
-                    <strong>Multi-Parameter Biophysical Profiling:</strong> Automated compute of isoelectric point, GRAVY index, and docking affinity estimates.
+                    Since we can't always get a lab-confirmed 3D shape for every protein, we will use <strong>structures predicted by tools like AlphaFold</strong>, which are widely trusted and used across the field.
                   </span>
                 </div>
                 <div className="scope-list-item">
                   <CheckCircle2 size={16} color="#0d9488" style={{ flexShrink: 0, marginTop: 2 }} />
                   <span>
-                    <strong>Interactive Laboratory UI Cockpit:</strong> Full high-density telemetry dashboard with 3D structural viewer and dossier export.
+                    We are building and testing our model on <strong>proteins that are different enough from anything commonly used in training</strong>, so we can genuinely check if it works on "new" or unusual proteins — not just proteins it has already indirectly seen before.
                   </span>
                 </div>
               </div>
             </div>
 
-            {/* Out of Scope */}
+            {/* What we are NOT doing */}
             <div className="instrument-surface scope-card out-scope">
               <div className="scope-header">
                 <AlertTriangle size={20} color="#8e9bb0" />
-                <span>Out-of-Scope Boundaries</span>
+                <span>What we are NOT doing</span>
               </div>
               <div className="scope-list">
                 <div className="scope-list-item">
                   <span className="font-mono" style={{ color: '#8e9bb0', fontWeight: 700 }}>✕</span>
                   <span>
-                    <strong>In-Vivo Wet-Lab Synthesis:</strong> Wet-lab bacterial/yeast fermentation and automated crystallization are handled by downstream contract partners.
+                    We are <strong>not working with groups of multiple proteins interacting</strong> with each other (protein complexes).
                   </span>
                 </div>
                 <div className="scope-list-item">
                   <span className="font-mono" style={{ color: '#8e9bb0', fontWeight: 700 }}>✕</span>
                   <span>
-                    <strong>Clinical Trial Pharmacology:</strong> Pharmacokinetic (PK/PD) profiling and in-vivo human safety modeling are deferred to subsequent clinical phases.
+                    We are <strong>not trying to predict a protein's exact atomic structure</strong> — we're using existing tools (like AlphaFold) for that, and using their output as an input to our own model.
                   </span>
                 </div>
                 <div className="scope-list-item">
                   <span className="font-mono" style={{ color: '#8e9bb0', fontWeight: 700 }}>✕</span>
                   <span>
-                    <strong>Small-Molecule Drug Synthesis:</strong> Non-peptidic chemical entity generation outside of protein-peptide binding interfaces.
+                    We are <strong>not covering every single possible protein function</strong> — we're focusing on a manageable, well-defined set of function categories rather than trying to predict everything at once.
                   </span>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Phased Roadmap Timeline */}
-          <div className="roadmap-strip">
-            <div className="roadmap-title-row">
-              <span className="roadmap-title">Project Execution Roadmap</span>
-              <span className="font-mono" style={{ fontSize: '11px', color: '#0d9488', fontWeight: 600 }}>
-                PHASE 02 ACTIVE
-              </span>
+          {/* Why this scope makes sense */}
+          <div className="gaps-summary-banner" style={{ marginTop: '24px' }}>
+            <div className="gaps-summary-icon-box">
+              <Target size={18} />
             </div>
-
-            <div className="roadmap-phases-grid">
-              <div className="phase-step-card">
-                <span className="phase-num">PHASE 01 // COMPLETED</span>
-                <span className="phase-name">Mathematical Formulation</span>
-                <p className="phase-desc">
-                  Loss functions, SE(3) continuous score matching formulation, and benchmark dataset curation from PDB.
-                </p>
-              </div>
-
-              <div className="phase-step-card active">
-                <span className="phase-num">PHASE 02 // CURRENT</span>
-                <span className="phase-name">Model Training &amp; Dashboard</span>
-                <p className="phase-desc">
-                  Graph Transformer v4.2 optimization, TensorRT acceleration, and live telemetry web application.
-                </p>
-              </div>
-
-              <div className="phase-step-card">
-                <span className="phase-num">PHASE 03 // UPCOMING</span>
-                <span className="phase-name">In-Silico Benchmark Suite</span>
-                <p className="phase-desc">
-                  Rigorous blind validation against CAMEO and AlphaFold structural ground truth datasets.
-                </p>
-              </div>
-
-              <div className="phase-step-card">
-                <span className="phase-num">PHASE 04 // PLANNED</span>
-                <span className="phase-name">Wet-Lab Partner Handoff</span>
-                <p className="phase-desc">
-                  Synthesis order automated dispatch, microfluidic affinity measurement, and SPR verification.
-                </p>
-              </div>
+            <div className="gaps-summary-content">
+              <span className="gaps-summary-title">Why this scope makes sense</span>
+              <p className="gaps-summary-text">
+                Protein function prediction is a huge area — trying to cover everything would make the project unrealistic to finish in one semester. By narrowing to <strong>single proteins</strong>, a <strong>defined set of functions</strong>, and <strong>predicted (not lab-confirmed) structures</strong>, the project stays doable while still tackling a genuinely unsolved problem — predicting function for proteins that look different from anything the model has trained on.
+              </p>
             </div>
           </div>
         </section>
@@ -895,98 +872,134 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLaunchDashboard }) =
           <div className="section-header-block">
             <span className="section-eyebrow blue">
               <GitBranch size={14} />
-              SECTION 05 // SYSTEM ARCHITECTURE & PIPELINE
+              SECTION 05 // PROPOSED METHODOLOGY (IN PLAIN LANGUAGE)
             </span>
-            <h2 className="section-title">Proposed Methodology</h2>
+            <h2 className="section-title">Proposed Methodology (in plain language)</h2>
             <p className="section-subtitle">
-              A 4-stage end-to-end computational pipeline translating functional target definitions
-              into validated candidate dossiers.
+              Here's how we plan to build the system, step by step:
             </p>
           </div>
 
           <div className="methodology-workflow-grid">
-            {/* Stage 1 */}
+            {/* Step 1 */}
             <div className="instrument-surface method-stage-card">
               <div className="method-stage-header">
-                <span className="stage-badge">STAGE 01</span>
-                <div className="stage-icon-box">
-                  <Boxes size={16} />
-                </div>
-              </div>
-              <h3 className="stage-title">SE(3)-Equivariant Scaffold Diffusion</h3>
-              <p className="stage-desc">
-                Samples Cα coordinates via continuous reverse score-matching over SO(3) rotational frames,
-                conditioning backbone growth to snugly match target binding clefts.
-              </p>
-              <div className="stage-tech-tag">Cα Gaussian Noise Schedule</div>
-            </div>
-
-            {/* Stage 2 */}
-            <div className="instrument-surface method-stage-card">
-              <div className="method-stage-header">
-                <span className="stage-badge">STAGE 02</span>
-                <div className="stage-icon-box">
-                  <Network size={16} />
-                </div>
-              </div>
-              <h3 className="stage-title">Graph Transformer Inverse-Folding</h3>
-              <p className="stage-desc">
-                Constructs a k-NN residue contact graph with radial basis distance kernels and multi-head
-                relational attention to recover sequences that fold deterministically into the backbone.
-              </p>
-              <div className="stage-tech-tag">Relational Attention &amp; RBF</div>
-            </div>
-
-            {/* Stage 3 */}
-            <div className="instrument-surface method-stage-card">
-              <div className="method-stage-header">
-                <span className="stage-badge">STAGE 03</span>
-                <div className="stage-icon-box">
-                  <Cpu size={16} />
-                </div>
-              </div>
-              <h3 className="stage-title">Multi-Parametric In-Silico Filter</h3>
-              <p className="stage-desc">
-                AlphaFold self-consistency folding check (RMSD &lt; 1.5Å), GRAVY index evaluation,
-                and electrostatic surface charge profiling to discard aggregation-prone candidates.
-              </p>
-              <div className="stage-tech-tag">pLDDT &gt; 88 // ΔG &lt; -7.0</div>
-            </div>
-
-            {/* Stage 4 */}
-            <div className="instrument-surface method-stage-card">
-              <div className="method-stage-header">
-                <span className="stage-badge">STAGE 04</span>
+                <span className="stage-badge">STEP 01</span>
                 <div className="stage-icon-box">
                   <FileText size={16} />
                 </div>
               </div>
-              <h3 className="stage-title">Dossier &amp; Telemetry Export</h3>
+              <h3 className="stage-title">Start with the protein's sequence</h3>
               <p className="stage-desc">
-                Generates a publication-quality synthesis dossier with multi-head attention maps,
-                binding pocket residue annotations, and FASTA/PDB coordinate packages.
+                Every protein starts as a sequence — basically a long chain of building blocks (amino acids), like a string of letters.
               </p>
-              <div className="stage-tech-tag">GTX-Synthesis Specification</div>
+              <div className="stage-tech-tag">Input: Amino-acid sequence</div>
+            </div>
+
+            {/* Step 2 */}
+            <div className="instrument-surface method-stage-card">
+              <div className="method-stage-header">
+                <span className="stage-badge">STEP 02</span>
+                <div className="stage-icon-box">
+                  <Database size={16} />
+                </div>
+              </div>
+              <h3 className="stage-title">Turn the sequence into a set of features</h3>
+              <p className="stage-desc">
+                We pass this sequence through an existing, well-tested AI model called <strong>ESM-2</strong>, which has already learned patterns from millions of proteins. It converts each part of the sequence into a set of meaningful numbers that describe it — these numbers become the input "features" for our model.
+              </p>
+              <div className="stage-tech-tag">ESM-2 embeddings → Node features</div>
+            </div>
+
+            {/* Step 3 */}
+            <div className="instrument-surface method-stage-card">
+              <div className="method-stage-header">
+                <span className="stage-badge">STEP 03</span>
+                <div className="stage-icon-box">
+                  <Boxes size={16} />
+                </div>
+              </div>
+              <h3 className="stage-title">Predict the protein's 3D shape</h3>
+              <p className="stage-desc">
+                At the same time, we use an existing tool (<strong>AlphaFold or ESMFold</strong>) to predict what 3D shape the protein folds into. We're not building this shape-prediction part ourselves — we're using proven, publicly available tools for it.
+              </p>
+              <div className="stage-tech-tag">AlphaFold / ESMFold (frozen, off-the-shelf)</div>
+            </div>
+
+            {/* Step 4 */}
+            <div className="instrument-surface method-stage-card">
+              <div className="method-stage-header">
+                <span className="stage-badge">STEP 04</span>
+                <div className="stage-icon-box">
+                  <Network size={16} />
+                </div>
+              </div>
+              <h3 className="stage-title">Turn the shape into a connected network</h3>
+              <p className="stage-desc">
+                Once we have the 3D shape, we convert it into a network: each building block becomes a "point," and any two points that end up physically close together in the folded shape get connected — even if they were far apart in the original sequence. This is the key part that lets our model understand shape, not just sequence order.
+              </p>
+              <div className="stage-tech-tag">Residue contact graph (3D proximity)</div>
+            </div>
+
+            {/* Step 5 */}
+            <div className="instrument-surface method-stage-card">
+              <div className="method-stage-header">
+                <span className="stage-badge">STEP 05</span>
+                <div className="stage-icon-box">
+                  <Layers size={16} />
+                </div>
+              </div>
+              <h3 className="stage-title">Feed everything into our main model</h3>
+              <p className="stage-desc">
+                We combine the feature numbers from Step 2 with the network from Step 4, and feed both into our core model — a type of AI model designed to understand connected networks by paying attention to how different points relate to each other, based on both their features and their position in the network.
+              </p>
+              <div className="stage-tech-tag">Graph Transformer with Graphormer-style encodings</div>
+            </div>
+
+            {/* Step 6 */}
+            <div className="instrument-surface method-stage-card">
+              <div className="method-stage-header">
+                <span className="stage-badge">STEP 06</span>
+                <div className="stage-icon-box">
+                  <Target size={16} />
+                </div>
+              </div>
+              <h3 className="stage-title">Predict the protein's function</h3>
+              <p className="stage-desc">
+                The final output of the model is a prediction of what job or function the protein performs, chosen from a defined set of possible functions.
+              </p>
+              <div className="stage-tech-tag">Multi-label GO term prediction</div>
+            </div>
+
+            {/* Step 7 */}
+            <div className="instrument-surface method-stage-card">
+              <div className="method-stage-header">
+                <span className="stage-badge">STEP 07</span>
+                <div className="stage-icon-box">
+                  <ShieldCheck size={16} />
+                </div>
+              </div>
+              <h3 className="stage-title">Test it fairly</h3>
+              <p className="stage-desc">
+                To check if the model really understands new, unfamiliar proteins (not just proteins similar to ones it has seen before), we test it on a separate set of proteins that are clearly different from anything used in training — this gives an honest measure of how well it generalizes.
+              </p>
+              <div className="stage-tech-tag">Low-homology split → honest generalization</div>
             </div>
           </div>
 
-          {/* System Specifications Card */}
-          <div className="instrument-surface arch-specs-card">
+          {/* Plain-language pipeline summary */}
+          <div className="instrument-surface arch-specs-card" style={{ backgroundColor: '#f8fafc' }}>
             <div className="arch-spec-item">
-              <span className="arch-spec-label">Deep Learning Framework</span>
-              <span className="arch-spec-val">PyTorch 2.3 + PyG (Geometric)</span>
+              <span className="arch-spec-label">In one line</span>
+              <span className="arch-spec-val" style={{ fontSize: '13px', color: '#334155', fontWeight: 500 }}>
+                Sequence → ESM-2 features + AlphaFold shape → contact graph → Graph Transformer → GO function → fair test on new proteins
+              </span>
             </div>
             <div className="arch-spec-item">
-              <span className="arch-spec-label">Model Parameters</span>
-              <span className="arch-spec-val">48.2 Million Weights</span>
-            </div>
-            <div className="arch-spec-item">
-              <span className="arch-spec-label">Target Hardware</span>
-              <span className="arch-spec-val">NVIDIA A100 Tensor Core 80GB</span>
-            </div>
-            <div className="arch-spec-item">
-              <span className="arch-spec-label">Standard Format Support</span>
-              <span className="arch-spec-val font-mono">PDB, mmCIF, FASTA, JSON</span>
+              <span className="arch-spec-label">What we build vs. reuse</span>
+              <span className="arch-spec-val" style={{ fontSize: '12.5px', color: '#475569', fontWeight: 500 }}>
+                We <strong>build</strong> Steps 4–7 (graph + model + evaluation). We <strong>reuse</strong> Steps 2–3 (ESM-2, AlphaFold/ESMFold).
+              </span>
             </div>
           </div>
         </section>
