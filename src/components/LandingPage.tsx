@@ -34,8 +34,12 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLaunchDashboard }) =
   useEffect(() => {
     const el = seqStructRef.current
     if (!el) return
-    // Respect reduced-motion
-    if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const prefersReduced = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (prefersReduced) {
+      setSeqStructVisible(true)
+      return
+    }
+    if (typeof window === 'undefined' || !('IntersectionObserver' in window)) {
       setSeqStructVisible(true)
       return
     }
@@ -48,10 +52,15 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLaunchDashboard }) =
           }
         })
       },
-      { threshold: 0.18, rootMargin: '0px 0px -40px 0px' }
+      { threshold: 0.12, rootMargin: '0px 0px -60px 0px' }
     )
     observer.observe(el)
-    return () => observer.disconnect()
+    // Fallback: guarantee visibility after short delay even if observer never fires
+    const fallback = window.setTimeout(() => setSeqStructVisible(true), 900)
+    return () => {
+      window.clearTimeout(fallback)
+      observer.disconnect()
+    }
   }, [])
 
   const scrollToSection = (id: string) => {
@@ -1204,6 +1213,28 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLaunchDashboard }) =
               <span className="arch-spec-val" style={{ fontSize: '12.5px', color: '#475569', fontWeight: 500 }}>
                 We <strong>build</strong> Steps 4–7 (graph + model + evaluation). We <strong>reuse</strong> Steps 2–3 (ESM-2, AlphaFold/ESMFold).
               </span>
+            </div>
+          </div>
+        </section>
+
+        {/* Visual evidence directly below Methodology — public/image.png & public/image2.png */}
+        <section className="landing-section" id="methodology-visuals" aria-label="Methodology visual evidence">
+          <div className="methodology-visuals-grid">
+            <div className="instrument-surface methodology-visual-card">
+              <span className="methodology-visual-eyebrow">FIGURE A — PIPELINE OVERVIEW</span>
+              <img src="/image.png" alt="Methodology pipeline overview diagram" loading="lazy" />
+              <p className="methodology-visual-caption">
+                <strong>End-to-end pipeline:</strong> sequence → ESM-2 embeddings &amp; AlphaFold/ESMFold
+                structure → residue contact graph → Graph Transformer → function prediction.
+              </p>
+            </div>
+            <div className="instrument-surface methodology-visual-card">
+              <span className="methodology-visual-eyebrow">FIGURE B — MODEL &amp; EVALUATION DETAIL</span>
+              <img src="/image2.png" alt="Model architecture and evaluation details" loading="lazy" />
+              <p className="methodology-visual-caption">
+                <strong>Architecture &amp; evaluation:</strong> Graphormer spatial encodings, multi-label GO
+                supervision, low-homology splits and F-max / AUPR benchmarking against baselines.
+              </p>
             </div>
           </div>
         </section>
