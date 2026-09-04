@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import './LandingPage.css'
 import {
   LayoutDashboard,
@@ -19,6 +19,7 @@ import {
   Sparkles,
   Layers,
   Lightbulb,
+  Dna,
 } from 'lucide-react'
 
 interface LandingPageProps {
@@ -27,6 +28,31 @@ interface LandingPageProps {
 
 export const LandingPage: React.FC<LandingPageProps> = ({ onLaunchDashboard }) => {
   const [activeSection, setActiveSection] = useState<string>('hero')
+  const seqStructRef = useRef<HTMLElement | null>(null)
+  const [seqStructVisible, setSeqStructVisible] = useState(false)
+
+  useEffect(() => {
+    const el = seqStructRef.current
+    if (!el) return
+    // Respect reduced-motion
+    if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setSeqStructVisible(true)
+      return
+    }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setSeqStructVisible(true)
+            observer.unobserve(entry.target)
+          }
+        })
+      },
+      { threshold: 0.18, rootMargin: '0px 0px -40px 0px' }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
 
   const scrollToSection = (id: string) => {
     setActiveSection(id)
@@ -264,6 +290,184 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLaunchDashboard }) =
                 <strong style={{ color: '#2dd4bf' }}>4.2 nM</strong>
               </div>
             </div>
+          </div>
+        </section>
+
+        {/* ==================================================================
+            INTRO SECTION: From Sequence to Structure (motivation example)
+            ================================================================== */}
+        <section
+          className={`landing-section seq-structure-section ${seqStructVisible ? 'is-visible' : ''}`}
+          id="sequence-to-structure"
+          ref={seqStructRef}
+          aria-labelledby="seq-structure-heading"
+        >
+          <div className="section-header-block">
+            <span className="section-eyebrow teal">
+              <Dna size={14} />
+              INTRO // FROM SEQUENCE TO STRUCTURE
+            </span>
+            <h2 className="section-title" id="seq-structure-heading">
+              From Sequence to Structure
+            </h2>
+            <p className="section-subtitle">
+              A single string of amino-acid letters folds into one precise 3D shape — that shape is exactly what
+              gives a protein its function.
+            </p>
+          </div>
+
+          <div className="instrument-surface seq-structure-card">
+            <div className="seq-struct-grid">
+              {/* Left: Raw sequence */}
+              <div className="seq-panel">
+                <span className="seq-panel-eyebrow font-mono">RAW AMINO-ACID SEQUENCE</span>
+                <div className="seq-monospace-block font-mono" aria-label="Human Insulin A-chain sequence">
+                  <span className="seq-letters">GIVEQCCTSICSLYQLENYCN</span>
+                </div>
+                <span className="seq-panel-caption">Human Insulin (A-chain) — 21 amino acids</span>
+              </div>
+
+              {/* Center: Folding connector */}
+              <div className="seq-struct-connector" aria-hidden="true">
+                <div className="connector-line" />
+                <div className="connector-arrow-pill">
+                  <span className="connector-label font-mono">FOLDING</span>
+                  <ArrowRight size={16} className="connector-arrow-icon desktop-arrow" />
+                  <span className="connector-arrow-icon mobile-arrow" style={{ transform: 'rotate(90deg)', display: 'inline-flex' }}>
+                    <ArrowRight size={16} />
+                  </span>
+                </div>
+                <div className="connector-line" />
+              </div>
+
+              {/* Right: Folded ribbon structure */}
+              <div className="struct-panel">
+                <div className="struct-illustration-frame">
+                  <div className="struct-illustration-topbar font-mono">
+                    <span className="struct-top-label">
+                      <Activity size={10} color="#14b8a6" />
+                      3D RIBBON — ALPHA-HELICES
+                    </span>
+                    <span className="struct-pdb-pill">PDB: 3I40</span>
+                  </div>
+                  {/* Custom SVG ribbon illustration — public-domain style, no copyrighted image */}
+                  <svg
+                    viewBox="0 0 340 148"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    role="img"
+                    aria-label="Ribbon diagram of human insulin A-chain folded structure showing two alpha-helices"
+                    className="insulin-ribbon-svg"
+                  >
+                    {/* subtle grid */}
+                    <rect x="0.5" y="0.5" width="339" height="147" rx="10" stroke="#e2e8f0" strokeOpacity="0.0" />
+                    {/* Helix 1 shadow / ribbon base */}
+                    <path
+                      d="M 38 74 C 45 50, 55 48, 62 70 C 69 92, 79 94, 86 72 C 93 50, 103 48, 112 74"
+                      stroke="#0f766e"
+                      strokeWidth="13"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      opacity="0.18"
+                    />
+                    {/* Helix 1 main ribbon */}
+                    <path
+                      d="M 38 72 C 45 48, 55 46, 62 68 C 69 90, 79 92, 86 70 C 93 48, 103 46, 112 72"
+                      stroke="#14b8a6"
+                      strokeWidth="9"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    {/* Helix 1 highlight */}
+                    <path
+                      d="M 40 71 C 47 50, 56 48, 63 68 C 70 88, 80 90, 87 69 C 94 50, 104 48, 112 71"
+                      stroke="#5eead4"
+                      strokeWidth="1.8"
+                      strokeLinecap="round"
+                      opacity="0.95"
+                    />
+                    {/* Helix 1 turn striations */}
+                    <line x1="48" y1="60" x2="54" y2="68" stroke="white" strokeWidth="1.1" opacity="0.55" strokeLinecap="round" />
+                    <line x1="66" y1="78" x2="72" y2="70" stroke="white" strokeWidth="1.1" opacity="0.55" strokeLinecap="round" />
+                    <line x1="84" y1="61" x2="90" y2="69" stroke="white" strokeWidth="1.1" opacity="0.55" strokeLinecap="round" />
+
+                    {/* Loop connecting helices */}
+                    <path
+                      d="M 112 72 C 132 78, 148 88, 168 82 C 178 79, 186 72, 198 66"
+                      stroke="#94a3b8"
+                      strokeWidth="5"
+                      strokeLinecap="round"
+                      fill="none"
+                    />
+                    <path
+                      d="M 112 72 C 132 78, 148 88, 168 82 C 178 79, 186 72, 198 66"
+                      stroke="#e2e8f0"
+                      strokeWidth="1.2"
+                      strokeLinecap="round"
+                      opacity="0.9"
+                    />
+
+                    {/* Helix 2 shadow */}
+                    <path
+                      d="M 198 66 C 206 44, 216 42, 224 62 C 232 84, 242 86, 250 64 C 258 42, 268 40, 278 64"
+                      stroke="#0f766e"
+                      strokeWidth="13"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      opacity="0.18"
+                    />
+                    {/* Helix 2 main ribbon */}
+                    <path
+                      d="M 198 64 C 206 42, 216 40, 224 60 C 232 82, 242 84, 250 62 C 258 40, 268 38, 278 62"
+                      stroke="#0d9488"
+                      strokeWidth="9"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    {/* Helix 2 highlight */}
+                    <path
+                      d="M 200 63 C 208 44, 217 42, 225 60 C 233 80, 243 82, 251 61 C 259 42, 269 40, 278 61"
+                      stroke="#5eead4"
+                      strokeWidth="1.8"
+                      strokeLinecap="round"
+                      opacity="0.95"
+                    />
+                    <line x1="208" y1="53" x2="214" y2="61" stroke="white" strokeWidth="1.1" opacity="0.55" strokeLinecap="round" />
+                    <line x1="228" y1="71" x2="234" y2="62" stroke="white" strokeWidth="1.1" opacity="0.55" strokeLinecap="round" />
+                    <line x1="248" y1="53" x2="254" y2="61" stroke="white" strokeWidth="1.1" opacity="0.55" strokeLinecap="round" />
+
+                    {/* N / C termini caps */}
+                    <circle cx="34" cy="73" r="3" fill="#f1f5f9" stroke="#94a3b8" strokeWidth="1.2" />
+                    <circle cx="282" cy="60" r="3" fill="#f1f5f9" stroke="#14b8a6" strokeWidth="1.2" />
+                    <text x="18" y="77" fontFamily="JetBrains Mono" fontSize="7" fontWeight="700" fill="#64748b">N</text>
+                    <text x="289" y="64" fontFamily="JetBrains Mono" fontSize="7" fontWeight="700" fill="#0d9488">C</text>
+
+                    {/* Disulfide bridge — dashed amber */}
+                    <line x1="62" y1="64" x2="224" y2="56" stroke="#f59e0b" strokeWidth="1.4" strokeDasharray="4 3" strokeLinecap="round" opacity="0.9" />
+                    <circle cx="62" cy="64" r="2.2" fill="#fbbf24" stroke="#fff" strokeWidth="1" />
+                    <circle cx="224" cy="56" r="2.2" fill="#fbbf24" stroke="#fff" strokeWidth="1" />
+                    {/* Second disulfide */}
+                    <line x1="86" y1="68" x2="250" y2="58" stroke="#f59e0b" strokeWidth="1.2" strokeDasharray="3 3" strokeLinecap="round" opacity="0.75" />
+                  </svg>
+                  <div className="struct-legend-row font-mono">
+                    <span className="legend-dot-ribbon" />
+                    <span>helix</span>
+                    <span className="legend-sep">•</span>
+                    <span className="legend-dot-loop" />
+                    <span>loop</span>
+                    <span className="legend-sep">•</span>
+                    <span className="legend-dot-ss" />
+                    <span>disulfide</span>
+                  </div>
+                </div>
+                <span className="struct-panel-caption">Folded 3D ribbon structure (PDB-style)</span>
+              </div>
+            </div>
+
+            <p className="seq-struct-footer-caption">
+              One string of letters folds into this specific 3D shape — and that shape is what determines the
+              protein&apos;s function. Our project predicts this function directly from structure.
+            </p>
           </div>
         </section>
 
