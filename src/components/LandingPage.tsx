@@ -875,6 +875,97 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLaunchDashboard }) =
         </section>
 
         {/* ==================================================================
+            SECTION 2b: Evaluation Metrics
+            ================================================================== */}
+        <section className="landing-section" id="evaluation-metrics">
+          <div className="section-header-block">
+            <span className="section-eyebrow teal">
+              <Activity size={14} />
+              SECTION 02B // EVALUATION METRICS
+            </span>
+            <h2 className="section-title">Evaluation Metrics</h2>
+            <p className="section-subtitle">
+              How we measure function prediction quality and structural novelty — in plain language.
+            </p>
+          </div>
+
+          <div className="eval-metrics-grid">
+            {/* F-max */}
+            <div className="instrument-surface eval-metric-card">
+              <div className="eval-metric-header">
+                <span className="eval-metric-badge fmax">METRIC 01 // FUNCTION</span>
+                <div className="eval-metric-icon-wrap">
+                  <Target size={16} color="#0d9488" />
+                </div>
+              </div>
+              <h3 className="eval-metric-name">F-max</h3>
+              <p className="eval-metric-desc">
+                Measures the best balance between <strong>precision</strong> (how many predicted functions were
+                correct) and <strong>recall</strong> (how many actual functions were correctly caught), tested
+                across different confidence thresholds. Standard metric used in protein function prediction
+                competitions like CAFA.
+              </p>
+              <span className="eval-metric-pill">
+                <CheckCircle2 size={12} />
+                CAFA standard • threshold-tuned F1
+              </span>
+            </div>
+
+            {/* AUPR */}
+            <div className="instrument-surface eval-metric-card">
+              <div className="eval-metric-header">
+                <span className="eval-metric-badge aupr">METRIC 02 // FUNCTION</span>
+                <div className="eval-metric-icon-wrap">
+                  <Activity size={16} color="#2563eb" />
+                </div>
+              </div>
+              <h3 className="eval-metric-name">AUPR</h3>
+              <span className="eval-metric-subname">Area Under the Precision-Recall Curve</span>
+              <p className="eval-metric-desc">
+                Summarizes precision and recall across every threshold into a single score between 0 and 1.
+                Handles the class imbalance in GO term prediction well, since most functions are “not present”
+                for any given protein.
+              </p>
+              <span className="eval-metric-pill blue">
+                <CheckCircle2 size={12} />
+                Imbalance-aware • 0 → 1
+              </span>
+            </div>
+
+            {/* TM-score */}
+            <div className="instrument-surface eval-metric-card">
+              <div className="eval-metric-header">
+                <span className="eval-metric-badge tmscore">METRIC 03 // STRUCTURE</span>
+                <div className="eval-metric-icon-wrap">
+                  <Boxes size={16} color="#ea580c" />
+                </div>
+              </div>
+              <h3 className="eval-metric-name">TM-score</h3>
+              <p className="eval-metric-desc">
+                Measures how similar two protein 3D shapes (folds) are after structural alignment, on a scale
+                of 0 to 1, independent of protein length. A score above 0.5 generally means the same fold;
+                below 0.2 means essentially unrelated. Computed using TM-align. Used to build a fair test split
+                of proteins with genuinely novel folds.
+              </p>
+              <span className="eval-metric-pill coral">
+                <CheckCircle2 size={12} />
+                TM-align • 0.5 = same fold
+              </span>
+            </div>
+          </div>
+
+          <div className="eval-metrics-summary">
+            <div className="eval-summary-icon-box">
+              <ShieldCheck size={18} />
+            </div>
+            <p className="eval-summary-text">
+              <strong>F-max and AUPR</strong> evaluate how well the model predicts function; <strong>TM-score</strong>{' '}
+              ensures our test proteins are genuinely novel folds, not just memorized similarity.
+            </p>
+          </div>
+        </section>
+
+        {/* ==================================================================
             SECTION 3: Identification of Research Gaps
             ================================================================== */}
         <section className="landing-section" id="gaps">

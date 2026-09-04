@@ -1681,7 +1681,170 @@
   text-align: center;
 }
 
+/* --------------------------------------------------------------------------
+   Evaluation Metrics (3-card section below Literature Survey)
+   -------------------------------------------------------------------------- */
+.eval-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.eval-metric-card {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border-top: 3px solid var(--border-color);
+}
+
+.eval-metric-card:nth-child(1) {
+  border-top-color: var(--emerald-500);
+}
+
+.eval-metric-card:nth-child(2) {
+  border-top-color: #3b82f6;
+}
+
+.eval-metric-card:nth-child(3) {
+  border-top-color: var(--orange-500);
+}
+
+.eval-metric-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.eval-metric-badge {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.eval-metric-badge.fmax {
+  background-color: var(--emerald-50);
+  color: var(--emerald-600);
+}
+
+.eval-metric-badge.aupr {
+  background-color: #eff6ff;
+  color: #2563eb;
+}
+
+.eval-metric-badge.tmscore {
+  background-color: var(--orange-100);
+  color: var(--orange-500);
+}
+
+.eval-metric-icon-wrap {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-pill);
+  flex-shrink: 0;
+}
+
+.eval-metric-name {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+}
+
+.eval-metric-subname {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-muted);
+  margin-top: -6px;
+  line-height: 1.4;
+}
+
+.eval-metric-desc {
+  font-size: 13.5px;
+  color: var(--text-secondary);
+  line-height: 1.65;
+}
+
+.eval-metric-desc strong {
+  color: var(--text-primary);
+}
+
+.eval-metric-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--emerald-600);
+  background-color: var(--emerald-50);
+  padding: 3px 8px;
+  border-radius: 4px;
+  width: fit-content;
+  margin-top: auto;
+}
+
+.eval-metric-pill.blue {
+  color: #2563eb;
+  background-color: #eff6ff;
+}
+
+.eval-metric-pill.coral {
+  color: var(--orange-text);
+  background-color: var(--orange-100);
+}
+
+.eval-metrics-summary {
+  background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%);
+  border: 1px solid #bbf7d0;
+  border-radius: var(--radius-lg);
+  padding: 18px 24px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: var(--shadow-sm);
+}
+
+.eval-summary-icon-box {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background-color: var(--emerald-50);
+  border: 1px solid var(--emerald-100);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--emerald-600);
+  flex-shrink: 0;
+}
+
+.eval-summary-text {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.eval-summary-text strong {
+  color: var(--text-primary);
+}
+
 /* Responsive: stack vertically on tablet/mobile */
+@media (max-width: 1024px) {
+  .eval-metrics-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (max-width: 900px) {
   .methodology-visuals-grid {
     grid-template-columns: 1fr;
